@@ -1,10 +1,11 @@
 # Prowlist 
-To install:
+<p>To install:</p>
 
-npm install
-npm install win-spawn -- temp fix for - http://stackoverflow.com/questions/28357048/grunt-error-cannot-find-module-win-spawn
-bower install
+<b>npm install</b><br/>
+<b>npm install win-spawn</b> -- temp fix for - http://stackoverflow.com/questions/28357048/grunt-error-cannot-find-module-win-spawn<br/>
+<b>bower install</b><br/>
 
-To run:
 
-grunt serve
+<p>To run:<p/>
+
+<b>grunt serve</b><br/>
