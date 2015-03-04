@@ -1,0 +1,30 @@
+<ion-view title="PROWLIST">
+  <ion-content padding="false">
+
+    <ion-list>
+      <form ng-submit="search()">
+        <div class="item item-input-inset">
+          <label class="item-input-wrapper">
+            <i class="icon ion-search placeholder-icon"></i>
+            <input type="text" placeholder="Search City" ng-model="searchData.searchText">
+          </label>
+          <!--<button class="button button-small" type="submit">
+            Search
+          </button>-->
+        </div>
+      </form>
+
+    
+      <span ng-show="searchData.results.length > 0">
+        <ion-item class="item-divider">
+          SEARCH RESULTS
+        </ion-item>
+
+        <ion-item ng-repeat="d in searchData.results | filter:searchData.searchText" href="#/login">
+          {{d}}
+        </ion-item>
+      </span>
+    </ion-list>      
+  
+  </ion-content>
+</ion-view>
