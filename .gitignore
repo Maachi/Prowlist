@@ -1,4 +1,14 @@
-node_modules/
-app/bower_components/
-www/
+node_modules
+www
+.idea
+.tmp
+.sass-cache
+app/bower_components
+coverage
+platforms
+plugins
+*.swp
+*.swo
+*.log
+*.DS_Store
 .temp/

@@ -20,7 +20,7 @@ var Orchestrator = require('orchestrator');
 
 var BASES = {
   android: 'res',
-  ios: 'Prowlist/Resources'
+  ios: 'SampleTabs/Resources'
 };
 var RESOURCE_DIR = 'resources';
 
