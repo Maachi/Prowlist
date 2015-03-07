@@ -58,12 +58,22 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   })
 
-    .state('tab.new-trip-select-perks', {
+  .state('tab.new-trip-select-perks', {
     url: '/new-trip/select-perks',
     views: {
       'tab-new-trip': {
         templateUrl: 'templates/tab-new-trip-select-perks.html',
         controller: 'NewTripSelectPerksCtrl'
+      }
+    }
+  })
+
+  .state('tab.my-perks', {
+    url: '/my-perks',
+    views: {
+      'tab-my-perks': {
+        templateUrl: 'templates/tab-my-perks.html',
+        controller: 'MyPerksCtrl'
       }
     }
   });

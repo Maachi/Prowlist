@@ -12,7 +12,6 @@ angular.module('starter.controllers', [])
 
 })
 
-
 .controller('MyPerksCtrl', function($scope) {
   
 });

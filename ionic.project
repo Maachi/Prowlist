@@ -1,4 +1,12 @@
 {
-  "name": "sample-tabs",
-  "app_id": ""
+  "name": "prowlist",
+  "app_id": "",
+  "gulpStartupTasks": [
+    "sass",
+    "watch"
+  ],
+  "watchPatterns": [
+    "www/**/*",
+    "!www/lib/**/*"
+  ]
 }
