@@ -34,7 +34,7 @@ The application uses Django 1.8 run the following command line after changing a 
 Running the application
 `./manage.py migrate`
 
-# Migrations
+## Migrations
 
 1. Database synchronization `./manage.py syncdb`
 2. Running the application `./manage.py runserver`
