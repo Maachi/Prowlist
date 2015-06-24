@@ -3,41 +3,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.db import models
+import hashlib
 import os
-
-#This contains the authorizations token for the user 
-class Token(models.Model):
-	
-	class Meta:
-		verbose_name_plural = "Members - Tokens or Sessions"
-
-	token = models.CharField(max_length=250, blank=True, null=True)
-	user = models.ForeignKey(User)
-	client = models.TextField(blank=True, null=True)
-	date = models.DateTimeField(default=datetime.now())
-
-	@staticmethod
-	def get_user_by_token(token):
-		try:
-			token_object = Token.objects.get(token=token)
-			return token_object.user
-		except Token.DoesNotExist:
-			return None
-
-	def get_token(self, user):
-		return default_token_generator.make_token(user)
-
-	#Generates the token for the session
-	def generate(self):
-		if not self.token :
-			self.token = self.get_token(self.user)
-			self.save()
-
-	def check_token(self):
-		return default_token_generator.check_token(self.user, self.token)
-
-	def __unicode__(self):
-		return unicode(self.user)
 
 
 def upload_photo_to(self, instance, filename):
@@ -88,3 +55,49 @@ class Member(models.Model):
 
 	def __unicode__(self):
 		return unicode(self.user)
+
+
+
+#This contains the authorizations token for the user 
+class Token(models.Model):
+	
+	class Meta:
+		verbose_name_plural = "Members - Tokens or Sessions"
+
+	token = models.CharField(max_length=250, blank=True, null=True)
+	user = models.ForeignKey(User, blank=True, null=True)
+	client = models.TextField(blank=True, null=True)
+	date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+	@staticmethod
+	def get_user_by_token(token):
+		try:
+			token_object = Token.objects.get(token=token)
+			return token_object.user
+		except Token.DoesNotExist:
+			return None
+
+	def get_token(self):
+		return hashlib.sha1(str(self.date)).hexdigest()
+
+	#Generates the token for the session
+	def generate(self):
+		if not self.token :
+			self.token = self.get_token()
+			self.save()
+
+	def check_token(self):
+		return default_token_generator.check_token(self, self.token)
+
+	def __unicode__(self):
+		user = "Anonymous "
+		if self.user:
+			user = unicode(self.user) + " "
+		return user + "[" + unicode(self.token) +"]"
+
+	def save(self, *args, **kwargs):
+		super(Token, self).save(*args, **kwargs)
+		if not self.token:
+			self.token = self.get_token()
+			self.save()
+
