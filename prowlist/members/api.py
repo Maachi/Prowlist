@@ -8,6 +8,7 @@ from prowlist.authenticate import *
 from django.conf.urls import url
 from datetime import datetime
 from members.models import *
+from members.utils import *
 import base64
 import json
 
@@ -27,6 +28,7 @@ class MembersResource(ModelResource):
 			url(r"^(?P<resource_name>%s)/login%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('login'), name="api_login"),
 			url(r'^(?P<resource_name>%s)/logout%s$' % (self._meta.resource_name, trailing_slash()), self.wrap_view('logout'), name='api_logout'),
 			url(r"^(?P<resource_name>%s)/quick-signup%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('signup'), name="api_login"),
+			url(r"^(?P<resource_name>%s)/update%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('enhance_user'), name="api_enhance_user"),
 			url(r"^(?P<resource_name>%s)/me%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('me'), name="api_get_user_session"),			
 		]
 
@@ -63,10 +65,27 @@ class MembersResource(ModelResource):
 		device = self.get_device(request)
 		token.save()
 		member.token = token;
+		member.join_date = datetime.now()
 		member.save()
 		return self.create_response(request, {
 			"token" : token.token
 		})
+
+	#This api method allows to save different user information
+	def enhance_user(self, request, **kwargs):
+		self.is_authenticated(request)
+		self.method_check(request, allowed=['post'])
+		member, error = MembersUtils.get_member_from_request(request)
+		if error:
+			return self.create_response(request, error, HttpApplicationError)
+		else:
+			if not member.user and request.body:
+				user, error = MembersUtils.create_prowlist_user(request)
+				if user :
+					member.user = user
+					member.save()
+			return self.create_response(request, member.to_object())
+
 
 
 	def me(self, request, **kwargs):
@@ -76,3 +95,5 @@ class MembersResource(ModelResource):
 		if 'HTTP_PROWLIST_USER' in request.META:
 			print "Listo"
 		return self.create_response(request, "Hola Mundo....")
+
+

@@ -99,6 +99,7 @@ class Member(models.Model):
 	friends = models.ManyToManyField('self', blank=True, null=True)
 	terms_agreed = models.BooleanField(default=False, db_index=True)
 	active = models.BooleanField(default=True, db_index=True)
+	join_date = models.DateTimeField(blank=True, null=True)
 	validated_email = models.BooleanField(default=False, db_index=True)
 	validated_email_date = models.DateTimeField(blank=True, null=True)
 	validated_cell_phone_date = models.DateTimeField(blank=True, null=True)
@@ -106,4 +107,17 @@ class Member(models.Model):
 	def __unicode__(self):
 		label = unicode(self.token)
 		return label
+
+	def to_object(self):
+		user = None
+		if self.user :
+			user = {
+				"first_name" : self.user.first_name,
+				"last_name" : self.user.last_name,
+				"email" : self.user.email,
+			}
+		return {
+			"token" : unicode(self.token),
+			"user" : user,
+		}
 
