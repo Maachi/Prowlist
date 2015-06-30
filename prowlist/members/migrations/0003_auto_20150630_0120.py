@@ -2,25 +2,23 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from django.conf import settings
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('members', '0005_auto_20150624_0218'),
+        ('members', '0002_auto_20150629_1447'),
     ]
 
     operations = [
         migrations.RemoveField(
             model_name='token',
-            name='member',
-        ),
-        migrations.AddField(
-            model_name='token',
             name='user',
-            field=models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True),
+        ),
+        migrations.AlterField(
+            model_name='member',
+            name='terms_agreed',
+            field=models.BooleanField(default=False, db_index=True),
             preserve_default=True,
         ),
     ]

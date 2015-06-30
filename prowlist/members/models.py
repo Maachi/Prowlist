@@ -1,4 +1,3 @@
-from django.contrib.auth.tokens import default_token_generator
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
 from datetime import datetime
@@ -7,7 +6,7 @@ import hashlib
 import os
 
 
-def upload_photo_to(self, instance, filename):
+def upload_photo_to(instance, filename):
 	return os.path.join("uploads/members/profile/%s" % instance.id, filename)
 
 
@@ -15,7 +14,7 @@ def upload_photo_to(self, instance, filename):
 class Profile(models.Model):
 	
 	class Meta:
-		verbose_name_plural = "Members - Prowlist user Profile"
+		verbose_name_plural = "Profile - Prowlist user Profile"
 
 	gender = models.CharField(max_length=32, choices=[
 		("1", "Male"),
@@ -37,37 +36,28 @@ class Profile(models.Model):
 		}
 
 
-#Members
-class Member(models.Model):
-	
-	class Meta:
-		verbose_name_plural = "Members - Prowlist Application Users"
+class Device(models.Model):
 
-	user = models.ForeignKey(User, blank=True, null=True) #Supports anonymous users
-	cell_phone = models.CharField(max_length=250, blank=True, null=True)
-	profile = models.ForeignKey(Profile, blank=True, null=True)
-	friends = models.ManyToManyField('self', blank=True, null=True)
-	terms_agreed = models.BooleanField(default=True, db_index=True)
-	active = models.BooleanField(default=True, db_index=True)
-	validated_email = models.BooleanField(default=False, db_index=True)
-	validated_email_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-	validated_cell_phone_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+	class Meta:
+		verbose_name_plural = "Devices - Session devices"
+
+
+	client = models.TextField(blank=True, null=True)
+	platform = models.CharField(max_length=250, blank=True, null=True)
 
 	def __unicode__(self):
-		return unicode(self.user)
-
+		return self.platform
 
 
 #This contains the authorizations token for the user 
 class Token(models.Model):
 	
 	class Meta:
-		verbose_name_plural = "Members - Tokens or Sessions"
+		verbose_name_plural = "Token - Tokens or Sessions"
 
 	token = models.CharField(max_length=250, blank=True, null=True)
-	user = models.ForeignKey(User, blank=True, null=True)
-	client = models.TextField(blank=True, null=True)
 	date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+	devices = models.ManyToManyField(Device, blank=True, null=True)
 
 	@staticmethod
 	def get_user_by_token(token):
@@ -86,18 +76,34 @@ class Token(models.Model):
 			self.token = self.get_token()
 			self.save()
 
-	def check_token(self):
-		return default_token_generator.check_token(self, self.token)
-
 	def __unicode__(self):
-		user = "Anonymous "
-		if self.user:
-			user = unicode(self.user) + " "
-		return user + "[" + unicode(self.token) +"]"
+		return unicode(self.token)
 
 	def save(self, *args, **kwargs):
 		super(Token, self).save(*args, **kwargs)
 		if not self.token:
 			self.token = self.get_token()
 			self.save()
+
+
+#Members
+class Member(models.Model):
+	
+	class Meta:
+		verbose_name_plural = "Members - Prowlist Application Users"
+
+	token = models.ForeignKey(Token)
+	user = models.ForeignKey(User, blank=True, null=True) #Supports anonymous users
+	cell_phone = models.CharField(max_length=250, blank=True, null=True)
+	profile = models.ForeignKey(Profile, blank=True, null=True)
+	friends = models.ManyToManyField('self', blank=True, null=True)
+	terms_agreed = models.BooleanField(default=False, db_index=True)
+	active = models.BooleanField(default=True, db_index=True)
+	validated_email = models.BooleanField(default=False, db_index=True)
+	validated_email_date = models.DateTimeField(blank=True, null=True)
+	validated_cell_phone_date = models.DateTimeField(blank=True, null=True)
+
+	def __unicode__(self):
+		label = unicode(self.token)
+		return label
 

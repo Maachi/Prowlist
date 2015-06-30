@@ -44,8 +44,6 @@ class City(models.Model):
 	name = models.CharField(max_length=100)
 	country = models.ForeignKey(Country)
 	state = models.ForeignKey(State, blank=True, null=True)
-	latitude = models.DecimalField(max_digits=20, decimal_places=17, blank=True, null=True, default=None)
-	longitude = models.DecimalField(max_digits=20, decimal_places=17, blank=True, null=True, default=None)
 	active = models.BooleanField(default=True, db_index=True)
 
 	def __unicode__(self):
@@ -56,4 +54,30 @@ class City(models.Model):
 			'name' : self.name,
 			'state' : unicode(self.state),
 			'country' : unicode(self.country),
+		}
+
+
+
+#Locatio
+class Location(models.Model):
+	class Meta:
+		verbose_name_plural = "Location"
+
+	city = models.ForeignKey(City)
+	country = models.ForeignKey(Country)
+	state = models.ForeignKey(State, blank=True, null=True)
+	latitude = models.DecimalField(max_digits=20, decimal_places=17, blank=True, null=True, default=None)
+	longitude = models.DecimalField(max_digits=20, decimal_places=17, blank=True, null=True, default=None)
+	active = models.BooleanField(default=True, db_index=True)
+
+	def __unicode__(self):
+		return self.name
+
+	def to_object(self):
+		return {
+			'city' : unicode(self.city),
+			'state' : unicode(self.state),
+			'country' : unicode(self.country),
+			'latitude' : self.latitude,
+			'longitude' : self.longitude,
 		}

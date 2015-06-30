@@ -2,9 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import datetime
-import members.models
 from django.conf import settings
+import members.models
 
 
 class Migration(migrations.Migration):
@@ -22,8 +21,8 @@ class Migration(migrations.Migration):
                 ('terms_agreed', models.BooleanField(default=True, db_index=True)),
                 ('active', models.BooleanField(default=True, db_index=True)),
                 ('validated_email', models.BooleanField(default=False, db_index=True)),
-                ('validated_email_date', models.DateTimeField(auto_now_add=True, null=True)),
-                ('validated_cell_phone_date', models.DateTimeField(auto_now_add=True, null=True)),
+                ('validated_email_date', models.DateTimeField(null=True, blank=True)),
+                ('validated_cell_phone_date', models.DateTimeField(null=True, blank=True)),
                 ('friends', models.ManyToManyField(related_name='friends_rel_+', null=True, to='members.Member', blank=True)),
             ],
             options={
@@ -49,8 +48,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('token', models.CharField(max_length=250, null=True, blank=True)),
                 ('client', models.TextField(null=True, blank=True)),
-                ('date', models.DateTimeField(default=datetime.datetime(2015, 6, 23, 15, 34, 50, 417217))),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('date', models.DateTimeField(auto_now_add=True, null=True)),
+                ('user', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
             ],
             options={
                 'verbose_name_plural': 'Members - Tokens or Sessions',
@@ -61,6 +60,12 @@ class Migration(migrations.Migration):
             model_name='member',
             name='profile',
             field=models.ForeignKey(blank=True, to='members.Profile', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='member',
+            name='token',
+            field=models.ForeignKey(to='members.Token'),
             preserve_default=True,
         ),
         migrations.AddField(

@@ -36,8 +36,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tastypie',
+    'venues',
     'members',
+    'products',
+    'sensors',
     'locations',
+    'tags',
+    'colors',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -73,3 +79,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+AWS_ACCESS_KEY_ID = 'AKIAJFHZHBYI3LJ25IVA'
+AWS_SECRET_ACCESS_KEY = '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'
+
+TASTYPIE_DEFAULT_FORMATS = ['json']

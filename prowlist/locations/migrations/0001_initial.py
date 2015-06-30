@@ -15,8 +15,6 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=100)),
-                ('latitude', models.DecimalField(default=None, null=True, max_digits=20, decimal_places=17, blank=True)),
-                ('longitude', models.DecimalField(default=None, null=True, max_digits=20, decimal_places=17, blank=True)),
                 ('active', models.BooleanField(default=True, db_index=True)),
             ],
             options={
@@ -38,6 +36,21 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
+            name='Location',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('latitude', models.DecimalField(default=None, null=True, max_digits=20, decimal_places=17, blank=True)),
+                ('longitude', models.DecimalField(default=None, null=True, max_digits=20, decimal_places=17, blank=True)),
+                ('active', models.BooleanField(default=True, db_index=True)),
+                ('city', models.ForeignKey(to='locations.City')),
+                ('country', models.ForeignKey(to='locations.Country')),
+            ],
+            options={
+                'verbose_name_plural': 'Location',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
             name='State',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -50,6 +63,12 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'States',
             },
             bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='location',
+            name='state',
+            field=models.ForeignKey(blank=True, to='locations.State', null=True),
+            preserve_default=True,
         ),
         migrations.AddField(
             model_name='city',
