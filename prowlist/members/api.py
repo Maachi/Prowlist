@@ -87,13 +87,14 @@ class MembersResource(ModelResource):
 			return self.create_response(request, member.to_object())
 
 
-
+	#This services returns the user information, this is an open window to check if the user is valid or not
 	def me(self, request, **kwargs):
 		self.is_authenticated(request)
-		self.method_check(request, allowed=['get'])
-		member = None
-		if 'HTTP_PROWLIST_USER' in request.META:
-			print "Listo"
-		return self.create_response(request, "Hola Mundo....")
+		self.method_check(request, allowed=['get', 'post'])
+		member, error = MembersUtils.get_member_from_request(request)
+		if error:
+			return self.create_response(request, error, HttpApplicationError)
+		else:
+			return self.create_response(request, member.to_object())
 
 

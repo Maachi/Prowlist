@@ -43,7 +43,7 @@ INSTALLED_APPS = (
     'sensors',
     'locations',
     'tags',
-    'colors',
+    'themes',
 )
 
 MIDDLEWARE_CLASSES = (

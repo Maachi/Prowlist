@@ -1,4 +1,4 @@
-from colors.models import *
+from themes.models import *
 from django.db import models
 
 
