@@ -8,3 +8,7 @@ class Tag(models.Model):
 
 	name = models.CharField(max_length=200)
 	color = models.ForeignKey(Color)
+
+
+	def __unicode__(self):
+		return self.name

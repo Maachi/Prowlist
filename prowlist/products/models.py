@@ -1,6 +1,8 @@
 from datetime import datetime
 from django.db import models
 from locations.models import *
+from tags.models import *
+
 
 class Choise(models.Model):
 	class Meta:
@@ -8,6 +10,9 @@ class Choise(models.Model):
 
 	name = models.CharField(max_length=200)
 	price = models.DecimalField(max_digits=20, decimal_places=2)
+
+	def __unicode__(self):
+		return self.name
 
 
 #A product could have different variants this model represents a variant with a single choise
@@ -18,6 +23,9 @@ class Variant(models.Model):
 
 	name = models.CharField(max_length=200)
 	choise = models.ForeignKey(Choise)
+
+	def __unicode__(self):
+		return self.name
 
 
 
@@ -57,6 +65,7 @@ class Product(models.Model):
 
 	name = models.CharField(max_length=200)
 	variants = models.ManyToManyField(Variant, blank=True)
+	tags = models.ManyToManyField(Tag, blank=True)
 	provider = models.ForeignKey(Provider, blank=True, null=True)
 	description = models.TextField(blank=True, null=True, default=None)
 	header_image = models.FileField(upload_to=upload_header_image, blank=True, null=True, default=None)

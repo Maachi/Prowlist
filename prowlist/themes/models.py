@@ -6,9 +6,14 @@ class Color(models.Model):
 		verbose_name_plural = "Colors"
 
 	name = models.CharField(max_length=200)
-	red = models.DecimalField(max_digits=3, decimal_places=1)
-	green = models.DecimalField(max_digits=3, decimal_places=1)
-	blue = models.DecimalField(max_digits=3, decimal_places=1)
+	red = models.IntegerField()
+	green = models.IntegerField()
+	blue = models.IntegerField()
+	alpha = models.IntegerField()
+
+
+	def __unicode__(self):
+		return self.name
 
 
 	def to_object(self):

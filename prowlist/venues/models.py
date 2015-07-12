@@ -36,18 +36,25 @@ class Attribute (models.Model):
 	color = models.ForeignKey(Color)
 
 
+class Type (models.Model):
+	class Meta:
+		verbose_name_plural = "Venue Types"
+
+	key = models.CharField(max_length=200)
+
 
 class Venue(models.Model):
 	class Meta:
 		verbose_name_plural = "Venues"
 
 	name = models.CharField(max_length=200)
-	brand = models.ForeignKey(Choise)
+	brand = models.ForeignKey(Brand)
 	location = models.ForeignKey(Location)
 	small_description = models.CharField(max_length=200)
 	description = models.TextField(blank=True, null=True, default=None)
 	image = models.FileField(upload_to=upload_venue_image, blank=True, null=True, default=None)
 	products = models.ManyToManyField(Product, blank=True)
+	types = models.ManyToManyField(Type, blank=True)
 	attributes = models.ManyToManyField(Attribute, blank=True)
 	active = models.BooleanField(default=True, db_index=True)
 
