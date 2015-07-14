@@ -73,9 +73,8 @@ class Location(models.Model):
 
 	def to_object(self):
 		return {
+			'name' : unicode(self.name),
 			'city' : unicode(self.city),
-			'state' : unicode(self.state),
-			'country' : unicode(self.country),
 			'latitude' : self.latitude,
 			'longitude' : self.longitude,
 		}

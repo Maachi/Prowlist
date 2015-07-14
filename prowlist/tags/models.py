@@ -12,3 +12,12 @@ class Tag(models.Model):
 
 	def __unicode__(self):
 		return self.name
+
+	def to_object(self):
+		color = None
+		if self.color:
+			color = self.color.to_object()
+		return {
+			'name' : self.name,
+			'color' : color,
+		}

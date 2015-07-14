@@ -76,6 +76,16 @@ class Product(models.Model):
 		return self.name
 
 	def to_object(self):
+		tags = []
+		header_image = None
+		if self.header_image:
+			header_image = self.header_image.url
+		for tag in self.tags.all():
+			tags.append(tag.to_object())
 		return {
-			'name' : self.name
+			'id' : self.pk,
+			'name' : self.name,
+			'tags' : tags,
+			'header_image' : header_image,
+			'description' : self.description,
 		}

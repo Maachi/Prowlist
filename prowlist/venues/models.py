@@ -42,6 +42,12 @@ class Type (models.Model):
 
 	key = models.CharField(max_length=200)
 
+	def to_object(self):
+		return {
+			'id' : self.pk,
+			'key' : self.key,
+		}
+
 
 class Venue(models.Model):
 	class Meta:
@@ -56,14 +62,36 @@ class Venue(models.Model):
 	products = models.ManyToManyField(Product, blank=True)
 	types = models.ManyToManyField(Type, blank=True)
 	attributes = models.ManyToManyField(Attribute, blank=True)
+	products_count = models.IntegerField(blank=True, null=True)
 	active = models.BooleanField(default=True, db_index=True)
+
+	def save(self, *args, **kwargs):
+		if not self.products_count:
+			self.products_count = self.products.count()
+		super(Venue, self).save(*args, **kwargs)
 
 	
 	def __unicode__(self):
 		return self.name
 
 	def to_object(self):
+		location = None
+		image = None
+		types = []
+		if self.location:
+			location = self.location.to_object()
+		if self.image:
+			image = self.image.url
+		for type in self.types.all():
+			types.append(type.to_object())
 		return {
-			'name' : self.name
+			'id' : self.pk,
+			'name' : self.name,
+			'location' : location,
+			'description' : self.description,
+			'small_description' : self.small_description,
+			'image' : image,
+			'products_count' : self.products_count,
+			'types' : types,
 		}
 
