@@ -38,7 +38,8 @@ class VenuesResource(ModelResource):
 			if venue.products:
 				for product in venue.products.all():
 					if product.active:
-						products.append(product.to_object())
+						product_object = product.to_object()
+						products.append(product_object)
 		except Venue.DoesNotExist:
 			self.create_response(request, products)
 		return self.create_response(request, products)
@@ -61,9 +62,11 @@ class VenuesResource(ModelResource):
 		venue = None
 		try:
 			venue = Venue.objects.get(pk=kwargs['venue_id'], active=True)
+			venue_object = venue.to_object()
+			return self.create_response(request, venue_object)
 		except Venue.DoesNotExist:
 			self.create_response(request, venue)
-		return self.create_response(request, venue.to_object())
+		return self.create_response(request, venue)
 
 
 

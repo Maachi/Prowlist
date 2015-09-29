@@ -1,9 +1,30 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
 from members.models import *
+from locations.models import *
 import json
 
 class MembersUtils:
+
+
+	@staticmethod
+	def save_location_from_request(request):
+		location_object = json.loads(request.body)
+		if "country" in location_object:
+			try:
+				country = Country.objects.get(name=location_object["country"])	
+			except Country.DoesNotExist:
+				country = Country()
+				country.name = location_object["country"]
+				country.save()
+			try:
+				city = City.objects.get(name=location_object["city"])	
+			except City.DoesNotExist:
+				city = City()
+				city.country = country
+				city.name = location_object["city"]
+				city.save()
+
 
 
 	#Centralizes the user creation, the request for this function should contain a body as a json with the 

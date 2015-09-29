@@ -5,6 +5,7 @@ from themes.models import *
 from tags.models import *
 from datetime import datetime
 from django.db import models
+import os
 
 
 def upload_logo_image(instance, filename):
@@ -41,6 +42,7 @@ class Type (models.Model):
 		verbose_name_plural = "Venue Types"
 
 	key = models.CharField(max_length=200)
+	value = models.CharField(max_length=200, null=True, default=None)
 
 	def to_object(self):
 		return {
@@ -63,7 +65,15 @@ class Venue(models.Model):
 	types = models.ManyToManyField(Type, blank=True)
 	attributes = models.ManyToManyField(Attribute, blank=True)
 	products_count = models.IntegerField(blank=True, null=True)
+
+	star_rating = models.IntegerField(blank=True, null=True)
+	member_rating = models.IntegerField(blank=True, null=True)
+
 	active = models.BooleanField(default=True, db_index=True)
+
+	#Tagging for venues special for searching or segments
+	tags = models.ManyToManyField(Tag, blank=True)
+	sensors = models.ManyToManyField(Sensor, blank=True)
 
 	def save(self, *args, **kwargs):
 		if not self.products_count:
@@ -78,12 +88,19 @@ class Venue(models.Model):
 		location = None
 		image = None
 		types = []
+		tags = []
+		sensors = []
 		if self.location:
 			location = self.location.to_object()
 		if self.image:
 			image = self.image.url
 		for type in self.types.all():
 			types.append(type.to_object())
+		for tag in self.tags.all():
+			tags.append(tag.to_object())
+		for sensor in self.sensors.all():
+			if sensor.active:
+				sensors.append(sensor.to_object())
 		return {
 			'id' : self.pk,
 			'name' : self.name,
@@ -93,5 +110,7 @@ class Venue(models.Model):
 			'image' : image,
 			'products_count' : self.products_count,
 			'types' : types,
+			'tags' : tags,
+			'sensors' : sensors,
 		}
 

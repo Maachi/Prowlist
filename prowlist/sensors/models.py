@@ -18,7 +18,11 @@ class Sensor(models.Model):
 
 	def to_object(self):
 		return {
-			'name' : self.name
+			'name' : self.name,
+			'uuid' : self.uuid,
+			'serial' : self.serial,
+			'latitude' : self.latitude,
+			'longitude' : self.longitude,
 		}
 
 

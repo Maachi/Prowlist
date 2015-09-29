@@ -67,6 +67,7 @@ class MembersResource(ModelResource):
 		member.token = token;
 		member.join_date = datetime.now()
 		member.save()
+		token.devices.add(device)
 		return self.create_response(request, {
 			"token" : token.token
 		})

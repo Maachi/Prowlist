@@ -1,5 +1,7 @@
 from django.contrib import admin
-from django.db.models import get_models, get_app
+from locations.models import *
 
-for model in get_models(get_app('locations')):
-	admin.site.register(model)
+admin.site.register(Country)
+admin.site.register(State)
+admin.site.register(City)
+admin.site.register(Location)

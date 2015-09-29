@@ -2,6 +2,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.db import models
+from locations.models import *
 import hashlib
 import os
 
@@ -103,6 +104,8 @@ class Member(models.Model):
 	validated_email = models.BooleanField(default=False, db_index=True)
 	validated_email_date = models.DateTimeField(blank=True, null=True)
 	validated_cell_phone_date = models.DateTimeField(blank=True, null=True)
+
+	locations = models.ManyToManyField(Location, blank=True)
 
 	def __unicode__(self):
 		label = unicode(self.token)
