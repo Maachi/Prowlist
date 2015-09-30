@@ -69,10 +69,11 @@ class Location(models.Model):
 	active = models.BooleanField(default=True, db_index=True)
 
 	def __unicode__(self):
-		return self.name
+		return unicode(self.city)
 
 	def to_object(self):
 		return {
+			'id' : self.id,
 			'name' : unicode(self.name),
 			'city' : unicode(self.city),
 			'latitude' : self.latitude,

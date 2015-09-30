@@ -10,7 +10,8 @@ class MembersUtils:
 	@staticmethod
 	def save_location_from_request(request):
 		location_object = json.loads(request.body)
-		if "country" in location_object:
+		location = None
+		if "country" in location_object and "city" in location_object:
 			try:
 				country = Country.objects.get(name=location_object["country"])	
 			except Country.DoesNotExist:
@@ -24,6 +25,17 @@ class MembersUtils:
 				city.country = country
 				city.name = location_object["city"]
 				city.save()
+
+			if "latitude" in location_object and "longitude" in location_object:
+				try:
+					location = Location.objects.get(latitude=location_object["latitude"], longitude=location_object["longitude"])	
+				except Location.DoesNotExist:
+					location = Location()
+				location.city = city
+				location.latitude = location_object["latitude"]
+				location.longitude = location_object["longitude"]
+				location.save()
+		return location
 
 
 

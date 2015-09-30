@@ -113,6 +113,9 @@ class Member(models.Model):
 
 	def to_object(self):
 		user = None
+		last_location = None;
+		if self.locations.all():
+			last_location = self.locations.all()[0].to_object()
 		if self.user :
 			user = {
 				"first_name" : self.user.first_name,
@@ -122,5 +125,6 @@ class Member(models.Model):
 		return {
 			"token" : unicode(self.token),
 			"user" : user,
+			"last_location" : last_location
 		}
 

@@ -81,10 +81,14 @@ class MembersResource(ModelResource):
 			return self.create_response(request, error, HttpApplicationError)
 		else:
 			if not member.user and request.body:
-				user, error = MembersUtils.create_prowlist_user(request)
-				if user :
-					member.user = user
-					member.save()
+				if "email" in request.body:
+					user, error = MembersUtils.create_prowlist_user(request)
+					if user :
+						member.user = user
+						member.save()
+			location = MembersUtils.save_location_from_request(request)
+			if location:
+				member.locations.add(location)
 			return self.create_response(request, member.to_object())
 
 

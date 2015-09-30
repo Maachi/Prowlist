@@ -29,7 +29,7 @@ The following dependencies are needed to run this environment:
 
 ## Run the project
 
-The application uses Django 1.8 run the following command line after changing a model
+The application uses Django 1.7 run the following command line after changing a model
 `./manage.py makemigrations`
 Running the application
 `./manage.py migrate`
