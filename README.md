@@ -2,13 +2,25 @@
 
 ## Installation
 
+### Virtual enviroment
+1. Install virtual enviroment requirements  
+2. Install virtual enviroment wrapper to facilitate the configuration `pip install virtualenvwrapper`
+3. Next, create a folder that will contain all your virtual environments if not exists `mkdir ~/.virtualenvs`
+4. Open your .bashrc `vi ~/.bashrc` file and add: 
+	export WORKON_HOME=~/.virtualenvs
+	source /usr/local/bin/virtualenvwrapper.sh
+5. Activate these changes by typing `source .bashrc`
+6. Create virtual `enviroment mkvirtualenv`
+7. Initialize enviroment `workon myenvironment`
+
 The following dependencies are needed to run this environment:
 
-1. XMLToDict library `pip install xmltodict`
-2. Tastypie library `pip install django-tastypie`
-3. boto: Required for storages amazon interfaces sudo `pip install boto`
-4. Storages: [http://django-storages.readthedocs.org/en/latest/backends/amazon-S3.html] `pip install django-storages`
-5. Django ses `pip install django-ses`
+1. Tastypie library `pip install django-tastypie`
+2. boto: Required for storages amazon interfaces sudo `pip install boto`
+3. Storages: [http://django-storages.readthedocs.org/en/latest/backends/amazon-S3.html] `pip install django-storages`
+4. Django ses `pip install django-ses`
+
+Note: Do not forget to `run pip freeze > requirements.txt` after adding a library or component
 
 ## Installation Dev-Enviroment Instructions for MacOSX 
 

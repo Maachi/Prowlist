@@ -9,6 +9,7 @@ import members.models
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('locations', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -23,7 +24,6 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'Devices - Session devices',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Member',
@@ -37,11 +37,11 @@ class Migration(migrations.Migration):
                 ('validated_email_date', models.DateTimeField(null=True, blank=True)),
                 ('validated_cell_phone_date', models.DateTimeField(null=True, blank=True)),
                 ('friends', models.ManyToManyField(related_name='friends_rel_+', null=True, to='members.Member', blank=True)),
+                ('locations', models.ManyToManyField(to='locations.Location', blank=True)),
             ],
             options={
                 'verbose_name_plural': 'Members - Prowlist Application Users',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Profile',
@@ -53,7 +53,6 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'Profile - Prowlist user Profile',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Token',
@@ -66,24 +65,20 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'Token - Tokens or Sessions',
             },
-            bases=(models.Model,),
         ),
         migrations.AddField(
             model_name='member',
             name='profile',
             field=models.ForeignKey(blank=True, to='members.Profile', null=True),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='member',
             name='token',
             field=models.ForeignKey(to='members.Token'),
-            preserve_default=True,
         ),
         migrations.AddField(
             model_name='member',
             name='user',
             field=models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True),
-            preserve_default=True,
         ),
     ]

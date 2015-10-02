@@ -58,7 +58,7 @@ class Token(models.Model):
 
 	token = models.CharField(max_length=250, blank=True, null=True)
 	date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
-	devices = models.ManyToManyField(Device, blank=True, null=True)
+	devices = models.ManyToManyField(Device, blank=True)
 
 	@staticmethod
 	def get_user_by_token(token):
@@ -97,7 +97,7 @@ class Member(models.Model):
 	user = models.ForeignKey(User, blank=True, null=True) #Supports anonymous users
 	cell_phone = models.CharField(max_length=250, blank=True, null=True)
 	profile = models.ForeignKey(Profile, blank=True, null=True)
-	friends = models.ManyToManyField('self', blank=True, null=True)
+	friends = models.ManyToManyField('self', blank=True)
 	terms_agreed = models.BooleanField(default=False, db_index=True)
 	active = models.BooleanField(default=True, db_index=True)
 	join_date = models.DateTimeField(blank=True, null=True)

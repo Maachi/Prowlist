@@ -43,7 +43,7 @@ class Provider(models.Model):
 	point_contact_provider = models.CharField(max_length=200, blank=True, null=True, default=None)
 	point_contact_email = models.CharField(max_length=200, blank=True, null=True, default=None)
 	description = models.TextField(blank=True, null=True, default=None)
-	locations = models.ManyToManyField(Location, blank=True, null=True)
+	locations = models.ManyToManyField(Location, blank=True)
 	active = models.BooleanField(default=True, db_index=True)
 
 	def __unicode__(self):

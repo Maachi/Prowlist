@@ -9,6 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('locations', '0001_initial'),
+        ('tags', '0001_initial'),
     ]
 
     operations = [
@@ -22,7 +23,6 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'Variant choises',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Product',
@@ -36,7 +36,6 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'Products',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Provider',
@@ -52,7 +51,6 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'Products - Providers',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Variant',
@@ -64,18 +62,20 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'Product variants',
             },
-            bases=(models.Model,),
         ),
         migrations.AddField(
             model_name='product',
             name='provider',
             field=models.ForeignKey(blank=True, to='products.Provider', null=True),
-            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='product',
+            name='tags',
+            field=models.ManyToManyField(to='tags.Tag', blank=True),
         ),
         migrations.AddField(
             model_name='product',
             name='variants',
             field=models.ManyToManyField(to='products.Variant', blank=True),
-            preserve_default=True,
         ),
     ]

@@ -1,5 +1,8 @@
 from django.contrib import admin
-from django.db.models import get_models, get_app
 
-for model in get_models(get_app('venues')):
-	admin.site.register(model)
+from .models import *
+
+admin.site.register(Brand)
+admin.site.register(Attribute)
+admin.site.register(Type)
+admin.site.register(Venue)

@@ -8,9 +8,11 @@ import venues.models
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('sensors', '0001_initial'),
         ('locations', '0001_initial'),
         ('products', '0001_initial'),
         ('themes', '0001_initial'),
+        ('tags', '0001_initial'),
     ]
 
     operations = [
@@ -25,7 +27,6 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'Venue Attributes',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='Brand',
@@ -37,7 +38,17 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'Venue Brand',
             },
-            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Type',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('key', models.CharField(max_length=200)),
+                ('value', models.CharField(default=None, max_length=200, null=True)),
+            ],
+            options={
+                'verbose_name_plural': 'Venue Types',
+            },
         ),
         migrations.CreateModel(
             name='Venue',
@@ -47,15 +58,20 @@ class Migration(migrations.Migration):
                 ('small_description', models.CharField(max_length=200)),
                 ('description', models.TextField(default=None, null=True, blank=True)),
                 ('image', models.FileField(default=None, null=True, upload_to=venues.models.upload_venue_image, blank=True)),
+                ('products_count', models.IntegerField(null=True, blank=True)),
+                ('star_rating', models.IntegerField(null=True, blank=True)),
+                ('member_rating', models.IntegerField(null=True, blank=True)),
                 ('active', models.BooleanField(default=True, db_index=True)),
                 ('attributes', models.ManyToManyField(to='venues.Attribute', blank=True)),
-                ('brand', models.ForeignKey(to='products.Choise')),
+                ('brand', models.ForeignKey(to='venues.Brand')),
                 ('location', models.ForeignKey(to='locations.Location')),
                 ('products', models.ManyToManyField(to='products.Product', blank=True)),
+                ('sensors', models.ManyToManyField(to='sensors.Sensor', blank=True)),
+                ('tags', models.ManyToManyField(to='tags.Tag', blank=True)),
+                ('types', models.ManyToManyField(to='venues.Type', blank=True)),
             ],
             options={
                 'verbose_name_plural': 'Venues',
             },
-            bases=(models.Model,),
         ),
     ]

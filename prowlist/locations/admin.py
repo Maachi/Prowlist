@@ -1,5 +1,5 @@
 from django.contrib import admin
-from locations.models import *
+from .models import *
 
 admin.site.register(Country)
 admin.site.register(State)

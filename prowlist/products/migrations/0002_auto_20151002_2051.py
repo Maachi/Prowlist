@@ -7,14 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('themes', '0002_auto_20150712_2009'),
+        ('products', '0001_initial'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='color',
-            name='alpha',
-            field=models.IntegerField(),
-            preserve_default=True,
+            model_name='provider',
+            name='locations',
+            field=models.ManyToManyField(to='locations.Location', blank=True),
         ),
     ]

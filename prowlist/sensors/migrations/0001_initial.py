@@ -24,7 +24,6 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'Sensors (Proximity detectors)',
             },
-            bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='SensorLogs',
@@ -37,6 +36,5 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'Sensor Logs',
             },
-            bases=(models.Model,),
         ),
     ]

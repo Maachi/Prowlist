@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('themes', '__first__'),
+        ('themes', '0001_initial'),
     ]
 
     operations = [
@@ -21,6 +21,5 @@ class Migration(migrations.Migration):
             options={
                 'verbose_name_plural': 'Tags',
             },
-            bases=(models.Model,),
         ),
     ]
