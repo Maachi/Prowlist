@@ -114,10 +114,18 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+AWS_ACCESS_KEY_ID = 'AKIAJFHZHBYI3LJ25IVA'
+AWS_SECRET_ACCESS_KEY = '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'
+
+
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated'
-    ]
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'members.api.authentication.MemberSessionAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
 }
+
