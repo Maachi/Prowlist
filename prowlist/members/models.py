@@ -1,5 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
+from sorl.thumbnail import ImageField
 from datetime import datetime
 from django.db import models
 from locations.models import *
@@ -21,7 +22,7 @@ class Profile(models.Model):
 		("1", "Male"),
 		("2", "Female")
 	], default=None, blank=True, null=True)
-	photo = models.FileField(upload_to=upload_photo_to, blank=True, null=True, default=None)
+	photo = models.ImageField(upload_to=upload_photo_to, blank=True, null=True, default=None)
 
 
 	def __unicode__(self):

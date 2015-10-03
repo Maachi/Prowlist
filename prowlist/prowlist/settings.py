@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'sorl.thumbnail',
     'rest_framework',
     'venues',
     'members',
@@ -117,6 +118,12 @@ STATIC_URL = '/static/'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 AWS_ACCESS_KEY_ID = 'AKIAJFHZHBYI3LJ25IVA'
 AWS_SECRET_ACCESS_KEY = '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'
+
+
+AWS_S3_SECURE_URLS = False
+AWS_STORAGE_BUCKET_NAME = 'prowlist-dev'
+#AWS_S3_CUSTOM_DOMAIN = 'cdn.prowlist.com'
+SITE_URL = 'http://127.0.0.1:8000'
 
 
 REST_FRAMEWORK = {

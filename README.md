@@ -11,7 +11,7 @@
 	source /usr/local/bin/virtualenvwrapper.sh
 5. Activate these changes by typing `source .bashrc`
 6. Create virtual `enviroment mkvirtualenv`
-7. Initialize enviroment `workon myenvironment`
+7. Initialize enviroment `workon prowlist`
 
 The following dependencies are needed to run this environment:
 
