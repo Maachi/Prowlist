@@ -43,3 +43,21 @@ class MemberSessionAuthentication(BaseAuthentication):
 				return (request.user, None)
 		raise exceptions.AuthenticationFailed('The user is invalid or the provided token does not match.')
 
+
+
+class MemberAnonymous(MemberSessionAuthentication):
+
+	def authenticate(self, request):
+		# Get the underlying HttpRequest object
+		request = request._request
+		member = self.get_member(request)
+		if member:
+			if member.user :
+				return (member.user, None)
+			else :
+				return (AnonymousUser(), None)
+		else :
+			if request.user and request.user.is_superuser:
+				return (request.user, None)
+			else:
+				return (AnonymousUser(), None)

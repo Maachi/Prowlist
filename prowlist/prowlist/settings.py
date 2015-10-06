@@ -128,7 +128,7 @@ SITE_URL = 'http://127.0.0.1:8000'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'members.api.authentication.MemberSessionAuthentication',
+        'members.auth.authentication.MemberSessionAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (

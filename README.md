@@ -9,8 +9,8 @@
 4. Open your .bashrc `vi ~/.bashrc` file and add: 
 	export WORKON_HOME=~/.virtualenvs
 	source /usr/local/bin/virtualenvwrapper.sh
-5. Activate these changes by typing `source .bashrc`
-6. Create virtual `enviroment mkvirtualenv`
+5. Activate these changes by typing `source ~/.bashrc`
+6. Create virtual `enviroment prowlist`
 7. Initialize enviroment `workon prowlist`
 
 The following dependencies are needed to run this environment:
