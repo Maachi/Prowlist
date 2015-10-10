@@ -14,6 +14,13 @@ class MemberSessionAuthentication(BaseAuthentication):
 				return token
 			except Token.DoesNotExist:
 				return None
+		elif 'prowlist-user' in request.GET:
+			token = request.GET['prowlist-user']
+			try:
+				token = Token.objects.get(token=token)
+				return token
+			except Token.DoesNotExist:
+				return None
 		return None
 
 
@@ -41,7 +48,7 @@ class MemberSessionAuthentication(BaseAuthentication):
 		else :
 			if request.user and request.user.is_superuser:
 				return (request.user, None)
-		raise exceptions.AuthenticationFailed('The user is invalid or the provided token does not match.')
+		raise exceptions.AuthenticationFailed(u'The user is invalid or the provided token does not match.')
 
 
 
