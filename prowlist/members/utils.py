@@ -7,8 +7,10 @@ import json
 class MembersUtils:
 
 
-	@staticmethod
-	def save_location_from_request(request):
+	@classmethod
+	def save_location_from_request(self, request):
+		if not request.body:
+			return None
 		location_object = json.loads(request.body)
 		location = None
 		if "country" in location_object and "city" in location_object:
@@ -43,8 +45,8 @@ class MembersUtils:
 	#following format {"email":"bipsa81@gmail.com", "password":"123abc", "first_name":"Sebastian", "last_name":"Romero"}
 	#The password is not required, if the request is sent without a password, prowlist will create one for the user
 	#The firstname and lastname fields are not required also.
-	@staticmethod
-	def create_prowlist_user(request):
+	@classmethod
+	def create_prowlist_user(self, request):
 		error = None
 		user = None
 		user_object = json.loads(request.body)

@@ -1,6 +1,7 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
 from sorl.thumbnail import ImageField
+from sorl.thumbnail import get_thumbnail
 from datetime import datetime
 from django.db import models
 from locations.models import *
@@ -10,6 +11,20 @@ import os
 
 def upload_photo_to(instance, filename):
 	return os.path.join("uploads/members/profile/%s" % instance.id, filename)
+
+
+def upload_avatar_to(instance, filename):
+	return os.path.join("uploads/avatars/", filename)
+
+
+class Avatar (models.Model):
+	class Meta:
+		verbose_name_plural = "Avatars - Prowlist user Avatars"
+
+	image = models.ImageField(upload_to=upload_avatar_to, blank=True, null=True, default=None)
+
+	def __unicode__(self):
+		return unicode(self.id)
 
 
 #This model represents the user profile use this class to extend user data
@@ -23,6 +38,8 @@ class Profile(models.Model):
 		("2", "Female")
 	], default=None, blank=True, null=True)
 	photo = models.ImageField(upload_to=upload_photo_to, blank=True, null=True, default=None)
+	avatar = models.ImageField(upload_to=upload_photo_to, blank=True, null=True, default=None)
+	birth_date = models.DateField(blank=True, null=True)
 
 
 	def __unicode__(self):
@@ -30,11 +47,23 @@ class Profile(models.Model):
 
 	def to_object(self):
 		photo = None
+		avatar = None
 		if self.photo:
-			photo = self.photo.url
+			image = get_thumbnail(self.photo, '400x400', crop='center', quality=99)
+			photo = image.url
+		if self.avatar:
+			avatar = self.avatar.url
+		else:
+			try :
+				image_avatar = Avatar.objects.order_by('?').first()
+				avatar = get_thumbnail(image_avatar.image, '400x400', crop='center', quality=99).url
+			except Avatar.DoesNotExist:
+				avatar = None
 		return {
+			"avatar" : avatar,
 			"photo" : photo,
 			"gender" : self.gender,
+			"birth_date" : self.birth_date
 		}
 
 
@@ -114,7 +143,16 @@ class Member(models.Model):
 
 	def to_object(self):
 		user = None
-		last_location = None;
+		last_location = None
+		profile = None
+		if self.profile:
+			profile = self.profile.to_object()
+		else:
+			member_profile = Profile()
+			member_profile.save()
+			self.profile = member_profile
+			self.save()
+			profile = self.profile.to_object()
 		if self.locations.all():
 			last_location = self.locations.all()[0].to_object()
 		if self.user :
@@ -126,6 +164,7 @@ class Member(models.Model):
 		return {
 			"token" : unicode(self.token),
 			"user" : user,
+			"profile" : profile,
 			"last_location" : last_location
 		}
 

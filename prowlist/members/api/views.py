@@ -1,7 +1,7 @@
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .. auth.authentication import MemberAnonymous
 from rest_framework.response import Response
+from .. auth.authentication import MemberAnonymous
 from .. models import *
 from .. utils import *
 from datetime import datetime
@@ -53,7 +53,7 @@ def quick_signup(request, format=None):
 
 
 
-@api_view(('GET', 'POST', ))
+@api_view(('GET',))
 @permission_classes((AllowAny, ))
 def me(request, format=None):
 	member, error = MembersUtils().get_member_from_request(request)
@@ -63,3 +63,22 @@ def me(request, format=None):
 		content = member.to_object()
 	return Response(content)
 
+
+
+@api_view(('GET', 'POST'))
+@permission_classes((AllowAny, ))
+def enhance_user(request, format=None):
+	member, error = MembersUtils().get_member_from_request(request)
+	response = None
+	if not error:
+		if not member.user and request.body:
+			if "email" in request.body:
+				user, error = MembersUtils().create_prowlist_user(request)
+				if user :
+					member.user = user
+					member.save()
+		location = MembersUtils().save_location_from_request(request)
+		if location:
+			member.locations.add(location)
+		response = member.to_object()
+	return Response(response)
