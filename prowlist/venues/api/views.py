@@ -7,11 +7,14 @@ from datetime import datetime
 
 
 
-@api_view(('GET',))
+@api_view(('GET', 'POST', ))
 @permission_classes((AllowAny, ))
 def near_venues(request, format=None):
-	content = {
-		'token': "mundo...."
-	}
+	venues = Venue.objects.filter(active = True)
+	venues_array = []
+	if venues:
+		for venue in venues:
+			venues_array.append(venue.serialize())
+	content = venues_array
 	return Response(content)
 

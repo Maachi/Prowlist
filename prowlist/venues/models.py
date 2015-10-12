@@ -76,15 +76,16 @@ class Venue(models.Model):
 	sensors = models.ManyToManyField(Sensor, blank=True)
 
 	def save(self, *args, **kwargs):
-		if not self.products_count:
-			self.products_count = self.products.count()
+		if self.pk:
+			if self.products.all():
+				self.products_count = self.products.count()
 		super(Venue, self).save(*args, **kwargs)
 
 	
 	def __unicode__(self):
 		return self.name
 
-	def to_object(self):
+	def serialize(self):
 		location = None
 		image = None
 		types = []
