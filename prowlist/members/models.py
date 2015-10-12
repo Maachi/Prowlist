@@ -56,7 +56,8 @@ class Profile(models.Model):
 		else:
 			try :
 				image_avatar = Avatar.objects.order_by('?').first()
-				avatar = get_thumbnail(image_avatar.image, '400x400', crop='center', quality=99).url
+				if image_avatar:
+					avatar = get_thumbnail(image_avatar.image, '400x400', crop='center', quality=99).url
 			except Avatar.DoesNotExist:
 				avatar = None
 		return {

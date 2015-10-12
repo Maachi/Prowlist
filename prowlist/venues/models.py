@@ -75,6 +75,9 @@ class Venue(models.Model):
 	tags = models.ManyToManyField(Tag, blank=True)
 	sensors = models.ManyToManyField(Sensor, blank=True)
 
+	height = models.IntegerField(default=120)
+	tint = models.ForeignKey(Color, blank=True)
+
 	def save(self, *args, **kwargs):
 		if self.pk:
 			if self.products.all():
@@ -88,9 +91,12 @@ class Venue(models.Model):
 	def serialize(self):
 		location = None
 		image = None
+		tint = None
 		types = []
 		tags = []
 		sensors = []
+		if self.tint:
+			tint = self.tint.to_object()
 		if self.location:
 			location = self.location.to_object()
 		if self.image:
@@ -113,5 +119,6 @@ class Venue(models.Model):
 			'types' : types,
 			'tags' : tags,
 			'sensors' : sensors,
+			'tint' : tint,
 		}
 
