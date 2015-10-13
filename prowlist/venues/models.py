@@ -77,6 +77,11 @@ class Venue(models.Model):
 
 	height = models.IntegerField(default=120)
 	tint = models.ForeignKey(Color, blank=True)
+	controller_style = models.CharField(max_length=32, choices=[
+		("1", "ProwlistControllerStyleDefault"),
+		("2", "ProwlistControllerStyleLight")
+	], default=None, blank=True, null=True)
+	address = models.CharField(max_length=200, null=True, default=None)
 
 	def save(self, *args, **kwargs):
 		if self.pk:
@@ -120,5 +125,7 @@ class Venue(models.Model):
 			'tags' : tags,
 			'sensors' : sensors,
 			'tint' : tint,
+			'address' : self.address,
+			'controller_style' : self.controller_style,
 		}
 
