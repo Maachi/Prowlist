@@ -75,7 +75,7 @@ class Product(models.Model):
 	def __unicode__(self):
 		return self.name
 
-	def to_object(self):
+	def serialize(self):
 		tags = []
 		header_image = None
 		if self.header_image:

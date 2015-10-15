@@ -30,3 +30,16 @@ def near_venues(request, format=None):
 	}
 	return Response(content)
 
+
+
+@api_view(('GET',))
+@permission_classes((AllowAny, ))
+def venue_detail(request, format=None):
+	response = {}
+	try :
+		venue = Venue.objects.get(pk=1)
+		response = venue.serializeWithProducts()
+	except Venue.DoesNotExist:
+		response = {}
+	return Response(response)
+

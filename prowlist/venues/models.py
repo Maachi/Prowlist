@@ -93,6 +93,15 @@ class Venue(models.Model):
 	def __unicode__(self):
 		return self.name
 
+	def serializeWithProducts(self):
+		venue_serialized = self.serialize()
+		products = []
+		if self.products.all:
+			for product in self.products.all():
+				products.append(product.serialize())
+		venue_serialized["products"] = products
+		return venue_serialized
+
 	def serialize(self):
 		location = None
 		image = None
