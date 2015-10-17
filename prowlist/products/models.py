@@ -14,6 +14,12 @@ class Choise(models.Model):
 	def __unicode__(self):
 		return self.name
 
+	def serialize(self):
+		return {
+			'name' : self.name,
+			'price' : self.price,
+		}
+
 
 #A product could have different variants this model represents a variant with a single choise
 #An example could be Internet packages where the variants will be the different transfer speed or 
@@ -26,6 +32,15 @@ class Variant(models.Model):
 
 	def __unicode__(self):
 		return self.name
+
+	def serialize(self):
+		choise = {}
+		if self.choise:
+			choise = self.choise.serialize()
+		return {
+			'name' : self.name,
+			'choise' : choise,
+		}
 
 
 
@@ -79,16 +94,20 @@ class Product(models.Model):
 		tags = []
 		provider = {}
 		header_image = None
+		variants = []
 		if self.header_image:
 			header_image = self.header_image.url
 		if self.provider:
 			provider = self.provider.serialize()
+		for variant in self.variants.all():
+			variants.append(variant.serialize())
 		for tag in self.tags.all():
 			tags.append(tag.to_object())
 		return {
 			'id' : self.pk,
 			'name' : self.name,
 			'tags' : tags,
+			'variants' : variants,
 			'header_image' : header_image,
 			'description' : self.description,
 			'provider' : provider
