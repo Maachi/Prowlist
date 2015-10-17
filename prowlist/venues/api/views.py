@@ -35,7 +35,6 @@ def near_venues(request, format=None):
 @api_view(('GET',))
 @permission_classes((AllowAny, ))
 def venue_detail(request, venue_id, format=None):
-	print venue_id
 	response = {}
 	try :
 		venue = Venue.objects.get(pk=venue_id)

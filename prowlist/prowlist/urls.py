@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^api/locations/', views.get_locations),
     url(r'^api/members/', include('members.api.urls')),
     url(r'^api/venues/', include('venues.api.urls')),
-    url(r'^api/products/', include('products.urls')),
+    url(r'^api/products/', include('products.api.urls')),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

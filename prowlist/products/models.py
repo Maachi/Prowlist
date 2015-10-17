@@ -49,7 +49,7 @@ class Provider(models.Model):
 	def __unicode__(self):
 		return self.name
 
-	def to_object(self):
+	def serialize(self):
 		return {
 			'name' : self.name,
 			'point_contact_provider' : self.point_contact_provider,
@@ -77,9 +77,12 @@ class Product(models.Model):
 
 	def serialize(self):
 		tags = []
+		provider = {}
 		header_image = None
 		if self.header_image:
 			header_image = self.header_image.url
+		if self.provider:
+			provider = self.provider.serialize()
 		for tag in self.tags.all():
 			tags.append(tag.to_object())
 		return {
@@ -88,4 +91,5 @@ class Product(models.Model):
 			'tags' : tags,
 			'header_image' : header_image,
 			'description' : self.description,
+			'provider' : provider
 		}
