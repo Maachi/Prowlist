@@ -39,6 +39,12 @@ class MembersUtils:
 							user = self.create_user(member_body['user']['email'])
 							member.user = user
 							member.save()
+					if member.user:	
+						if member_body['user']['first_name']:
+							member.user.first_name = member_body['user']['first_name']
+						if member_body['user']['last_name']:
+							member.user.last_name = member_body['user']['last_name']
+						member.user.save()
 			except ValueError, e:
 				error = e
 		return member, error
