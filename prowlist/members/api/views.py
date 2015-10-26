@@ -53,13 +53,14 @@ def quick_signup(request, format=None):
 
 
 
-@api_view(('GET',))
+@api_view(('GET', 'PATCH', 'PUT', ))
 @permission_classes((AllowAny, ))
 def me(request, format=None):
 	member, error = MembersUtils().get_member_from_request(request)
 	if error:
 		content = error
 	else:
+		member, error = MembersUtils().handle_save_response(member, request)
 		content = member.to_object()
 	return Response(content)
 

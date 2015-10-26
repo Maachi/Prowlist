@@ -29,8 +29,8 @@ class MemberSessionAuthentication(BaseAuthentication):
 		token = self.get_identifier(request)
 		if token : 
 			try:
-				member = Member(token=token)
-				return Member
+				member = Member.objects.get(token=token)
+				return member
 			except Member.DoesNotExist:
 				return None
 		return None

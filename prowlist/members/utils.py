@@ -1,10 +1,48 @@
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
+from random import choice
+from string import ascii_lowercase, digits
 from members.models import *
 from locations.models import *
 import json
 
 class MembersUtils:
+
+	@classmethod
+	def generate_random_username(self, length=16, chars=ascii_lowercase+digits, split=4, delimiter='-'):
+		username = ''.join([choice(chars) for i in xrange(length)])
+		if split:
+			username = delimiter.join([username[start:start+split] for start in range(0, len(username), split)])
+		try:
+			User.objects.get(username=username)
+			return self.generate_random_username(length=length, chars=chars, split=split, delimiter=delimiter)
+		except User.DoesNotExist:
+			return username;
+
+
+
+	@classmethod
+	def create_user(self, email):
+		return User.objects.create_user(self.generate_random_username(), email, User.objects.make_random_password())
+
+
+
+	@classmethod
+	def handle_save_response(self, member, request):
+		error = None
+		if request.body and request.method == 'PUT':
+			try:
+				member_body = json.loads(request.body)
+				if member_body['user']:
+					if member_body['user']['email']:
+						if not member.user:
+							user = self.create_user(member_body['user']['email'])
+							member.user = user
+							member.save()
+			except ValueError, e:
+				error = e
+		return member, error
+
 
 
 	@classmethod

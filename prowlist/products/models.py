@@ -2,6 +2,7 @@ from datetime import datetime
 from django.db import models
 from locations.models import *
 from tags.models import *
+from members.models import Member
 
 
 class Choise(models.Model):
@@ -112,3 +113,25 @@ class Product(models.Model):
 			'description' : self.description,
 			'provider' : provider
 		}
+
+
+#This Model will keep all memeber purchases
+class Purchase(models.Model):
+	class Meta:
+		verbose_name_plural = "Member Purchases"
+
+	member = models.ForeignKey(Member)
+	product = models.ForeignKey(Product)
+	date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
+
+	def __unicode__(self):
+		return unicode(self.member)
+
+	def serialize(self):
+		return {
+			'date' : self.date,
+			'product' : self.product.serialize()
+		}
+
+	#def save(self, *args, **kwargs):
+	#	super(Purchase, self).save(*args, **kwargs)
