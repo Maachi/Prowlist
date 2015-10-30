@@ -11,6 +11,7 @@ class MembersUtils:
 	@classmethod
 	def generate_random_username(self, length=16, chars=ascii_lowercase+digits, split=4, delimiter='-'):
 		username = ''.join([choice(chars) for i in xrange(length)])
+		exit
 		if split:
 			username = delimiter.join([username[start:start+split] for start in range(0, len(username), split)])
 		try:
@@ -48,6 +49,7 @@ class MembersUtils:
 			except ValueError, e:
 				error = e
 		return member, error
+
 
 
 
