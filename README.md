@@ -44,3 +44,11 @@ Running the application
 3. Run the following command `./manage.py publish stage`
 4. The process will take a few minutes.
 
+## Application
+
+Prowlist has the following services integrated:
+
+### Image Server 
+
+If you want to access to the image server just write the following path `/services/image/WxH/Path`
+
