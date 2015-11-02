@@ -115,6 +115,7 @@ class Venue(models.Model):
 			location = self.location.to_object()
 		if self.image:
 			image = self.image.url
+			relative_path = self.image.name
 		for type in self.types.all():
 			types.append(type.to_object())
 		for tag in self.tags.all():
@@ -129,6 +130,7 @@ class Venue(models.Model):
 			'description' : self.description,
 			'small_description' : self.small_description,
 			'image' : image,
+			'image_relative_path' : relative_path,
 			'products_count' : self.products_count,
 			'types' : types,
 			'tags' : tags,

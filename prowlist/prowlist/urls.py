@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^api/members/', include('members.api.urls')),
     url(r'^api/venues/', include('venues.api.urls')),
     url(r'^api/products/', include('products.api.urls')),
+    url(r'^api/themes/', include('themes.api.urls')),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
