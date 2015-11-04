@@ -1,3 +1,5 @@
+from sorl.thumbnail import ImageField
+from sorl.thumbnail import get_thumbnail
 from locations.models import *
 from products.models import *
 from sensors.models import *
@@ -60,7 +62,9 @@ class Venue(models.Model):
 	location = models.ForeignKey(Location)
 	small_description = models.CharField(max_length=200)
 	description = models.TextField(blank=True, null=True, default=None)
-	image = models.FileField(upload_to=upload_venue_image, blank=True, null=True, default=None)
+	
+	image = models.ImageField(upload_to=upload_venue_image, blank=True, null=True, default=None)
+
 	products = models.ManyToManyField(Product, blank=True)
 	types = models.ManyToManyField(Type, blank=True)
 	attributes = models.ManyToManyField(Attribute, blank=True)
@@ -68,7 +72,6 @@ class Venue(models.Model):
 
 	star_rating = models.IntegerField(blank=True, null=True)
 	member_rating = models.IntegerField(blank=True, null=True)
-
 	active = models.BooleanField(default=True, db_index=True)
 
 	#Tagging for venues special for searching or segments
@@ -82,6 +85,9 @@ class Venue(models.Model):
 		("2", "ProwlistControllerStyleLight")
 	], default=None, blank=True, null=True)
 	address = models.CharField(max_length=200, null=True, default=None)
+	#Logo image
+	logo_file = models.ImageField(upload_to=upload_venue_image, blank=True, null=True, default=None)
+
 
 	def save(self, *args, **kwargs):
 		if self.pk:
@@ -109,6 +115,7 @@ class Venue(models.Model):
 		types = []
 		tags = []
 		sensors = []
+		logo_file = None
 		if self.tint:
 			tint = self.tint.to_object()
 		if self.location:
@@ -116,6 +123,8 @@ class Venue(models.Model):
 		if self.image:
 			image = self.image.url
 			relative_path = self.image.name
+		if self.logo_file:
+			logo_file = self.logo_file.url
 		for type in self.types.all():
 			types.append(type.to_object())
 		for tag in self.tags.all():
@@ -138,5 +147,6 @@ class Venue(models.Model):
 			'tint' : tint,
 			'address' : self.address,
 			'controller_style' : self.controller_style,
+			'logo_file' : logo_file,
 		}
 
