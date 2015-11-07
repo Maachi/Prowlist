@@ -116,6 +116,7 @@ class Venue(models.Model):
 		tags = []
 		sensors = []
 		logo_file = None
+		relative_path = None
 		if self.tint:
 			tint = self.tint.to_object()
 		if self.location:
@@ -148,5 +149,6 @@ class Venue(models.Model):
 			'address' : self.address,
 			'controller_style' : self.controller_style,
 			'logo_file' : logo_file,
+			'height' : self.height,
 		}
 
