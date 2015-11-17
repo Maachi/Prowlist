@@ -14,7 +14,7 @@ import json
 def scale_image(request, width, height, image_path, format=None):
 	image = None
 	#Validate the image path format
-	size = '{1}x{0}'.format(width, height)
+	size = '{0}x{1}'.format(width, height)
 	if image_path:
 		image = get_thumbnail(image_path, size, crop='center', quality=99).url
 	content = {
