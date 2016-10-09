@@ -19,15 +19,11 @@ The following dependencies are needed to run this environment:
 
 Note: Do not forget to run `pip freeze > requirements.txt` after adding any library or component
 
-## Installation Dev-Enviroment Instructions for MacOSX 
+## Run the application
 
-1. There is a remote database installed, updated with all migrations ready for you to develop, if the responses do not facilitate the dev work, you should install MySQL and properly set up your development environment.
+1. Install all dependencies `pip install -r requirements.txt`
+2. Juest run the following command `./manage.py runserver --settings=prowlist.settings.development`
 
-## Run the project
-
-The application uses Django 1.8 run the following command line after changing a model
-Running the application
-`./manage.py migrate`
 
 ## Migrations
 
