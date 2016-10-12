@@ -16,3 +16,8 @@ node_modules
 .DS_Store
 development.py
 publish.py
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
