@@ -87,3 +87,5 @@ AUTH_USER_MODEL = 'users.User'
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATIC_ROOT = 'prowlist/static'
