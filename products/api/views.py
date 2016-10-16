@@ -2,10 +2,29 @@ from rest_framework.decorators import api_view, permission_classes, authenticati
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from django.core.paginator import Paginator
-from users.auth.authentication import MemberSessionAuthentication
 from .. models import *
 from .. sandbox.security import *
 from datetime import datetime
+
+
+@api_view(('GET',))
+@permission_classes((AllowAny, ))
+def get_active_products(request):
+    response = {}
+    items_per_page = request.GET.get('items_per_page', 2)
+    current_page = request.GET.get('page', 1) 
+    products_response = []
+    products = Product.objects.filter(active=True)
+    paginator = Paginator(products, items_per_page)
+    if paginator:
+        response['num_pages'] = paginator.num_pages
+        response['items_per_page'] = items_per_page
+        response['current_page'] = current_page
+        for product in paginator.page(current_page):
+            products_response.append(product.serialize())
+    response['produts'] = products_response
+    return Response(response)
+
 
 
 @api_view(('GET',))
@@ -35,7 +54,6 @@ def purchases(request, format=None):
 @api_view(('GET',))
 @permission_classes((AllowAny, ))
 def buy_product(request, product_id, format=None):
-    member = MemberSessionAuthentication().get_member(request)
     response = {}
     product = None
     status = 200
