@@ -5,11 +5,5 @@ from users.models import User
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
-        if not User.objects.filter(email='sebastian@maachi.com').exists():
-            user = User()
-            user.email = 'sebastian@maachi.com'
-            user.set_password('lascortinascerradas')
-            user.is_staff = True
-            user.is_active = True
-            user.is_superuser = True 
-            user.save()
+        if not User.objects.filter(email="admin@maachi.com").exists():
+            User.objects.create_superuser("admin@maachi.com", "lascortinascerradas")
