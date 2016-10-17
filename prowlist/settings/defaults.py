@@ -91,4 +91,5 @@ AUTH_USER_MODEL = 'users.User'
 STATIC_URL = '/static/'
 
 STATIC_ROOT = 'prowlist/static'
+AWS_S3_HOST = 's3-us-west-2.amazonaws.com'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
