@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.response import Response
 from django.core.paginator import Paginator
 from .. models import *
@@ -8,7 +9,8 @@ from datetime import datetime
 
 
 @api_view(('GET',))
-@permission_classes((AllowAny, ))
+@permission_classes((IsAuthenticated, ))
+@authentication_classes((TokenAuthentication, ))
 def get_active_products(request):
     response = {}
     items_per_page = request.GET.get('items_per_page', 2)

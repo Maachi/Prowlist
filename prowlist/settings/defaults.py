@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'users',
     'locations',
     'venues',
@@ -90,3 +91,4 @@ AUTH_USER_MODEL = 'users.User'
 STATIC_URL = '/static/'
 
 STATIC_ROOT = 'prowlist/static'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'

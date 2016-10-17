@@ -3,6 +3,7 @@ from django.db import models
 from locations.models import *
 from tags.models import *
 from users.models import User
+import os
 
 
 class Choise(models.Model):
