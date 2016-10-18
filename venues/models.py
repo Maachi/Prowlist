@@ -4,10 +4,12 @@ from locations.models import *
 from products.models import *
 from sensors.models import *
 from themes.models import *
+from users.models import User
 from tags.models import *
 from datetime import datetime
 from django.db import models
 import os
+from django.template.defaultfilters import slugify
 
 
 def upload_logo_image(instance, filename):
@@ -53,7 +55,12 @@ class Type (models.Model):
         }
 
 
+
 class Venue(models.Model):
+    '''
+    This is the main object for venues, venues are prepared 
+    places for Prowlist
+    '''
     class Meta:
         verbose_name_plural = "Venues"
 
@@ -87,9 +94,14 @@ class Venue(models.Model):
     address = models.CharField(max_length=200, null=True, default=None)
     #Logo image
     logo_file = models.ImageField(upload_to=upload_venue_image, blank=True, null=True, default=None)
+    slug = models.SlugField(max_length=200, unique=True, null=True, blank=True, db_index=True)
+    #Users associated to venues
+    users = models.ManyToManyField(User, blank=True) 
 
 
     def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = u'{name}'.format(name = slugify(self.name))
         if self.pk:
             if self.products.all():
                 self.products_count = self.products.count()
