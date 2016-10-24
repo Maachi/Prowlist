@@ -90,6 +90,11 @@ class User(AbstractBaseUser, PermissionsMixin):
             last_name=self.last_name)
 
 
+    def serialize(self):
+        return {
+            'email' : self.email,
+        }
+
     def save(self, *args, **kwargs):
         avatar = None
         if not self.pk and self.avatar:
